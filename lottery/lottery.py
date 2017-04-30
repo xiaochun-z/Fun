@@ -1,3 +1,4 @@
+# /usr/local/bin/python
 # coding=utf-8
 
 from random import *
@@ -17,12 +18,16 @@ class printer:
 
 class lottery:
 	def __init__(self, printer, balls, red):
-		self.balls = self.sort(balls[0:red]) + self.sort(balls[red:])
+		self.balls = sort(balls[0:red]) + sort(balls[red:])
 		self.printer = printer
 		self.red = red
+		self.g = generator(red)
 
 	def getBalls(self):
 		return self.balls;
+
+	def generateBalls(self):
+		return self.g.generateBalls()
 
 	def draw(self, i = 0):
 		llist = self.generateBalls()
@@ -35,9 +40,6 @@ class lottery:
 		k += self.compare_ball(llist, self.balls, False)
 		
 		return k
-
-	def generateBalls(self):
-		return self.__generateRed() + self.__generateBlue()
 
 	def compare_ball(self, items, compare_list, red = True):
 		if red:
@@ -54,11 +56,18 @@ class lottery:
 				continue
 		return k
 
+class generator:
+	def __init__(self, red = 5):
+		self.red = 5
+
+	def generateBalls(self):
+		return self.__generateRed() + self.__generateBlue()
+
 	def __generateRed(self):
-		return self.sort(self.__generate(5, 1, 35))
+		return sort(self.__generate(5, 1, 35))
 
 	def __generateBlue(self):
-		return self.sort(self.__generate(2, 1, 12))
+		return sort(self.__generate(2, 1, 12))
 
 	def __generate(self, length, minNum, maxNum):
 		randomlist = []
@@ -70,15 +79,15 @@ class lottery:
 					break
 		return randomlist
 
-	def sort(self, seq):
-		for n in range(1, len(seq)):
-			item = seq[n]
-			hole = n
-			while hole > 0 and seq[hole - 1] > item:
-				seq[hole] = seq[hole - 1]
-				hole = hole - 1
-			seq[hole] = item
-		return seq
+def sort(seq):
+	for n in range(1, len(seq)):
+		item = seq[n]
+		hole = n
+		while hole > 0 and seq[hole - 1] > item:
+			seq[hole] = seq[hole - 1]
+			hole = hole - 1
+		seq[hole] = item
+	return seq
 
 		
 if __name__ == "__main__":

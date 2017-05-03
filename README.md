@@ -22,3 +22,6 @@ if __name__ == "__main__":
 
 参见文章：[你能中1000万吗](http://1few.com/fun-python-lottery)
 
+## algorithms
+An algorithm is any well-deﬁned computational procedure that takes some value, or set of values, as input and produces some value, or set of values, as output. An algorithm is thus a sequence of computational steps that transform the input into the output. 
+* [insertion sort(插入排序)](http://1few.com/algorithm-insertion-sort/)

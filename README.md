@@ -25,3 +25,4 @@ if __name__ == "__main__":
 ## algorithms
 An algorithm is any well-deﬁned computational procedure that takes some value, or set of values, as input and produces some value, or set of values, as output. An algorithm is thus a sequence of computational steps that transform the input into the output. 
 * [insertion sort(插入排序)](http://1few.com/algorithm-insertion-sort/)
+* [selection sort(选择排序)](http://1few.com/algorithm-selection-sort/)

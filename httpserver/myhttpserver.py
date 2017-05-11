@@ -3,6 +3,7 @@
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from os import path
+from urllib.parse import urlparse
 
 curdir = path.dirname(path.realpath(__file__))
 sep = '/'
@@ -25,18 +26,20 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
 	# GET
 	def do_GET(self):
 		sendReply = False
-		if self.path.endswith('/'):
-			self.path += 'index.html'
-		filename, fileext = path.splitext(self.path)
+		querypath = urlparse(self.path)
+		filepath, query = querypath.path, querypath.query
+		
+		if filepath.endswith('/'):
+			filepath += 'index.html'
+		filename, fileext = path.splitext(filepath)
 		for e in mimedic:
 			if e[0] == fileext:
 				mimetype = e[1]
 				sendReply = True
 
 		if sendReply == True:
-			print(path.realpath(curdir + sep + self.path))
 			try:
-				with open(path.realpath(curdir + sep + self.path),'rb') as f:
+				with open(path.realpath(curdir + sep + filepath),'rb') as f:
 					content = f.read()
 					self.send_response(200)
 					self.send_header('Content-type',mimetype)

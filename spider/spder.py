@@ -171,6 +171,7 @@ if __name__ == '__main__':
         SESSION = json.load(f)
 
     dir_path = os.path.join(dir_path, SESSION['title'])
+    os.mkdir(dir_path)
 
     q_file = os.path.join(dir_path, queue_file)
     f_file = os.path.join(dir_path, finished_file)

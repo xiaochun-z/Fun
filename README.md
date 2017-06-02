@@ -28,3 +28,8 @@ An algorithm is any well-deﬁned computational procedure that takes some value,
 * [selection sort(选择排序)](http://1few.com/algorithm-selection-sort/)
 * [Binary search(二分查找)](http://1few.com/algorithm-binary-search/)
 * [merge sort(归并排序)](http://1few.com/algorithm-merge-sort/)
+
+## 其他内容
+* [redis测试](http://1few.com/install-redis-on-centos/)
+* mysql测试
+* [简单Python爬虫--爬小说:Spider](http://1few.com/python-crawler-v1/)

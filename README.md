@@ -33,3 +33,4 @@ An algorithm is any well-deﬁned computational procedure that takes some value,
 * [redis测试](http://1few.com/install-redis-on-centos/)
 * mysql测试
 * [简单Python爬虫--爬小说:Spider](http://1few.com/python-crawler-v1/)
+* [intelliJ IDEA + Spring boot + freemarker + mybatis项目搭建](http://1few.com/spring-boot-freemarker-mybatis-for-beginner)

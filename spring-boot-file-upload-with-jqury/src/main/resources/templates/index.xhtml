@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>index</title>
+    <script type="text/javascript" src="/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        function uploadfile() {
+            var formData = new FormData();
+            $.each($("input[type='file']")[0].files, function (i, file) {
+                formData.append('upload-file', file);
+            });
+            $.ajax({
+                url: "/upload",
+                method: "post",
+                cache: false,
+                data: formData,
+                processData: false,
+                contentType: false
+            }).done(function (res) {
+                if (res.success) {
+                    $("#message").text(res.message + res.files);
+                } else {
+                    $("#message").text("cannot upload files, reason: " + res.message)
+                }
+            })
+                .fail(function (res) {
+
+                })
+        }
+    </script>
+</head>
+<body>
+<h2>upload with jquery</h2>
+<div>
+    <form id="uploadform" enctype="multipart/form-data">
+        <label for="uploadfile">choose file</label> <input id="uploadfile" type="file"
+                                                           multiple/>
+        <br/>
+    </form>
+    <button id="btnupload" onclick="uploadfile()">upload</button>
+</div>
+<span id="message"></span>
+</body>
+</html>

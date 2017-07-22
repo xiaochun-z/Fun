@@ -22,7 +22,7 @@ class homeController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "upload", method = arrayOf(RequestMethod.POST), consumes = arrayOf("multipart/form-data"))
+    @PostMapping("upload")
     fun upload(@RequestPart("upload-file") uploadfile: Array<MultipartFile>): UploadResult {
         if (uploadfile.count() == 0) return UploadResult(false, "the uploading file is not detected.", arrayOf())
 

@@ -16,10 +16,9 @@
             $.ajax({
                 url: "/upload",
                 method: "post",
-                cache: false,
                 data: formData,
                 processData: false,
-                contentType: false
+                contentType: false,
             }).done(function (res) {
                 if (res.success) {
                     $("#message").text(res.message + res.files);
@@ -40,11 +39,11 @@
 <body>
 <h2>upload with jquery</h2>
 <div>
-    <form id="uploadform" enctype="multipart/form-data">
-        <label for="uploadfile">choose file</label> <input id="uploadfile" type="file"
-                                                           multiple/>
-        <br/>
-    </form>
+
+    <label for="uploadfile">choose file</label> <input id="uploadfile" type="file"
+                                                       multiple="multiple"/>
+    <br/>
+
     <button id="btnupload" onclick="uploadfile()">upload</button>
 </div>
 <span id="message"></span>

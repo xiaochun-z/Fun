@@ -6,6 +6,7 @@
 <head>
     <title>index</title>
     <script type="text/javascript" src="/js/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/css.css"/>
     <script type="text/javascript">
         function uploadfile() {
             var formData = new FormData();
@@ -22,8 +23,12 @@
             }).done(function (res) {
                 if (res.success) {
                     $("#message").text(res.message + res.files);
+                    $("#message").addClass("green")
+                    $("#message").removeClass("red")
                 } else {
                     $("#message").text("cannot upload files, reason: " + res.message)
+                    $("#message").addClass("red")
+                    $("#message").removeClass("green")
                 }
             })
                 .fail(function (res) {

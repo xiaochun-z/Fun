@@ -1,0 +1,5 @@
+LIBRARY ieproxy
+EXPORTS
+	setproxy @1
+	getproxy @2
+	proxyEnabled @3

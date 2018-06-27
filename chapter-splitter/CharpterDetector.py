@@ -111,9 +111,6 @@ class ChapterMaster:
                 f.write(content)
             cnt += 1
 
-            if cnt > 1000:
-                break
-
         tocfn = os.path.join(self.__path, "toc.txt")
         with(open(tocfn, "w", encoding="utf-8")) as f:
             f.write(toc)

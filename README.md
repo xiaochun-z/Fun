@@ -34,3 +34,6 @@ An algorithm is any well-deﬁned computational procedure that takes some value,
 * mysql测试
 * [简单Python爬虫--爬小说:Spider](http://1few.com/python-crawler-v1/)
 * [intelliJ IDEA + Spring boot + freemarker + mybatis项目搭建](http://1few.com/spring-boot-freemarker-mybatis-for-beginner)
+* [小说章节自动划分](chapter-splitter/CharpterDetector.py)，为了在Sigil里做出有章节的小说，使用Python来自动分割章节和生成目录。
+效果
+![epub目录效果](chapter-splitter/screenshot.jpg "某本网络小说")

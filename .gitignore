@@ -23,7 +23,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-
+venv/
 ### Mac os ###
 .DS_Store
 out/

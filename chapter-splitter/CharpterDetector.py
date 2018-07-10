@@ -8,7 +8,7 @@ class ChapterMaster:
         self.__filename = fpath
         self.__path = os.path.dirname(os.path.abspath(fpath))
         # 章节的正则表达式，多数小说是“第1002章 咒怨”这类格式，如果小说不是这样的格式，同时实现多种正则表达式
-        self.keywords = ["^\s*[第地](\d+)章.+$", "^\s*[第地]([一二三四五六七八九十百千万]+)章.+$"]
+        self.keywords = [r"^\s*[第地](\d+)章.+$", r"\s*[第地]([一两二三四五六七八九十百千万零\d]+)章.*$"]
 
         self.__navPointTemplate = """
     <navPoint id="navPoint-{0}" playOrder="{0}">
@@ -49,7 +49,7 @@ class ChapterMaster:
         """
         print("parse file name " + self.__filename)
         lst = list()
-        regexps = [re.compile(keyword, re.IGNORECASE) for keyword in self.keywords]
+        regexps = [re.compile(keyword, re.UNICODE) for keyword in self.keywords]
         try:
             with(open(self.__filename, 'r', encoding="utf-8")) as f:
                 # 原本的小说的行数（第1行，第2行）
@@ -63,16 +63,28 @@ class ChapterMaster:
                     for regex in regexps:
                         if regex.match(line):
                             search = regex.search(line)
-                            chaptercnt += 1
-                            print(str.format("行数:{0}, 计算序号:{1}, 书中章节序号:{2}, 章节名称:{3}", cnt, chaptercnt, search.group(1),
-                                             line))
-                            lst.append((cnt, chaptercnt, search.group(1), line))
+
+                            if len(lst) > 0:
+                                # 太短的章节忽略掉
+                                predicative = lst[-1][0]
+                                if cnt > predicative + 10:
+                                    chaptercnt += 1
+                                    self.appendtolist(chaptercnt, cnt, line, lst, search)
+                            else:
+                                chaptercnt += 1
+                                self.appendtolist(chaptercnt, cnt, line, lst, search)
+                            break
                     cnt += 1
         except Exception as e:
             print(str(e))
         finally:
             print("end process")
         return lst
+
+    def appendtolist(self, chaptercnt, cnt, line, lst, search):
+        lst.append((cnt, chaptercnt, search.group(1), line))
+        print(str.format("行数:{0}, 计算序号:{1}, 书中章节序号:{2}, 章节名称:{3}", cnt, chaptercnt,
+                         search.group(1), line))
 
     @staticmethod
     def prepareTextDirectory(path: str):
@@ -97,29 +109,41 @@ class ChapterMaster:
         self.prepareTextDirectory(textpath)
         toc = ''
         cnt = 1
-        for i in range(0, len(it) - 1):
+        for i in range(0, len(it)):
             chapter = it[i]
-            nxt = it[i + 1]
+            line2 = -1
+            if i < len(it) - 1:
+                nxt = it[i + 1]
+                line2 = nxt[0] - 1
             chapternum = str(chapter[1])
             chaptertitle = chapter[3]
+
             t = self.generateTOC(chapternum, chaptertitle)
             toc += t[1]
-            content = self.getChapterContent(chapter[0] - 1, nxt[0] - 1, chapter[2])
+            content = self.getChapterContent(chapter[0] - 1, line2, chapter[2])
             fn = os.path.join(self.__path, "Text\\" + t[0] + ".xhtml")
             print(str.format("{0}: 处理{1}", cnt, fn))
-            with(open(fn, "w", encoding='utf-8')) as f:
-                f.write(content)
+            self.writetofile(fn, content)
             cnt += 1
 
         tocfn = os.path.join(self.__path, "toc.txt")
-        with(open(tocfn, "w", encoding="utf-8")) as f:
-            f.write(toc)
+        self.writetofile(tocfn, toc)
+
+    @staticmethod
+    def writetofile(path, content):
+
+        with(open(path, "w", encoding="utf-8")) as f:
+            f.write(content)
 
     def getChapterContent(self, line1: int, line2: int, title) -> str:
+
         with(open(self.__filename, 'r', encoding='utf-8')) as f:
             lines = f.readlines()
             title = lines[line1].rstrip()
-            body = "".join(lines[line1 + 1:line2])
+            if line2 > 0:
+                body = "".join(lines[line1 + 1:line2])
+            else:
+                body = "".join(lines[line1 + 1:])
             body = str.format("<h1>{0}</h1>\n", title) + self.convertToHTML(body)
             return str.format(self.__xhtmlTemplate, title, body)
 
@@ -157,7 +181,7 @@ class ChapterMaster:
 
 
 if __name__ == "__main__":
-    file = "C:\\Downloads\\老衲要还俗.txt"
+    file = "武动乾坤.txt"
     cm = ChapterMaster(file)
     res = cm.parse()
     print(str.format("{0} results was extracted.", len(res)))

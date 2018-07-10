@@ -37,3 +37,6 @@ An algorithm is any well-deﬁned computational procedure that takes some value,
 * [小说章节自动划分](chapter-splitter/CharpterDetector.py)，为了在Sigil里做出有章节的小说，使用Python来自动分割章节和生成目录。
 效果
 ![epub目录效果](chapter-splitter/screenshot.jpg "某本网络小说")
+
+已知问题：
+如果小说第一行没有一个空行，那么第一章可能无法识别。
